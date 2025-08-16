@@ -1,81 +1,85 @@
 # 📝 To-Do List App
 
-Uma aplicação moderna de lista de tarefas com suporte multilíngue, temas claro/escuro e funcionalidades avançadas.
+A modern task list application with multilingual support, light/dark themes and advanced features.
 
-## ✨ Funcionalidades
+## ✨ Features
 
-- ✅ Adicionar, editar e remover tarefas
-- 📅 Data de vencimento para tarefas
-- 🔄 Filtros (Todas, Ativas, Concluídas)
-- 📊 Ordenação por data de vencimento
-- 🌍 Suporte multilíngue (Português, Inglês, Hebraico)
-- 🌙 Tema claro e escuro
-- 📱 Design responsivo
-- 💾 Armazenamento local (LocalStorage)
-- 🚀 Carregamento inicial de tarefas via API
+- ✅ Add, edit and remove tasks
+- 📅 Due dates for tasks
+- 🔄 Filters (All, Active, Completed)
+- 📊 Sort by due date
+- 🌍 Multilingual support (Portuguese, English, Hebrew)
+- 🌙 Light and dark theme
+- 📱 Responsive design
+- 💾 Local storage (LocalStorage)
+- 🚀 Initial task loading via API
 
 ## 🎨 Design
 
-- Interface moderna com gradientes roxo/rosé
-- Tipografia moderna (Poppins)
-- Animações e transições suaves
-- Suporte completo para RTL (direita para esquerda) em hebraico
+- Modern interface with purple/rose gradients
+- Modern typography (Poppins)
+- Smooth animations and transitions
+- Full RTL (right-to-left) support for Hebrew
 
-## 🚀 Como usar
+## 🚀 How to use
 
-1. Clone este repositório:
+1. Clone this repository:
 ```bash
-git clone https://github.com/nandabri/todo-list-app.git
+git clone https://github.com/nandabri/to-DoList.git
 ```
 
-2. Abra o arquivo `index.html` no seu navegador
+2. Open the `index.html` file in your browser
 
-3. Comece a adicionar suas tarefas!
+3. Start adding your tasks!
 
-## 🛠️ Tecnologias utilizadas
+## 🛠️ Technologies used
 
 - HTML5
 - CSS3 (Flexbox, Grid, Custom Properties)
 - JavaScript ES6+
-- JSONPlaceholder API (para tarefas iniciais)
+- JSONPlaceholder API (for initial tasks)
 
-## 🌐 Idiomas suportados
+## 🌐 Supported languages
 
 - 🇺🇸 English
 - 🇧🇷 Português
 - 🇮🇱 עברית (Hebrew)
 
-## 📱 Responsividade
+## 📱 Responsiveness
 
-A aplicação é totalmente responsiva e funciona perfeitamente em:
+The application is fully responsive and works perfectly on:
 - Desktop
 - Tablets
 - Smartphones
 
-## 🎯 Recursos avançados
+## 🎯 Advanced features
 
-- **Edição inline**: Duplo clique no texto da tarefa para editar
-- **Indicador de vencimento**: Tarefas vencidas são destacadas em vermelho
-- **Contador de tarefas**: Mostra quantas tarefas restam para completar
-- **Limpeza automática**: Botão para remover todas as tarefas concluídas
+- **Inline editing**: Double click on task text to edit
+- **Expiration indicator**: Overdue tasks are highlighted in red
+- **Task counter**: Shows how many tasks remain to complete
+- **Automatic cleanup**: Button to remove all completed tasks
 
-## 📄 Licença
+## 📄 License
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+This project is under the MIT license. See the [LICENSE](LICENSE) file for more details.
 
-## 🤝 Contribuições
+## 🤝 Contributions
 
-Contribuições são bem-vindas! Sinta-se à vontade para:
+We love contributions! 🚀 If you’d like to collaborate, here’s how:
 
-1. Fazer um Fork do projeto
-2. Criar uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abrir um Pull Request
+Fork the project
 
-## 📞 Contato
+Create a branch for your idea (git checkout -b feature/YourAwesomeIdea)
 
-Para entrar em contato comigo mande uma mensagem no meu site https://nandabri.github.io/myPortfolio/
+Commit your changes (git commit -m 'Add an awesome idea ✨')
+
+Push to your branch (git push origin feature/YourAwesomeIdea)
+
+Open a Pull Request and share it with the community 💡
+
+## 📞 Contact
+
+To get in touch with me, send a message on my website https://nandabri.github.io/myPortfolio/
 
 
-Link do Projeto: https://github.com/nandabri/todo-list-app
+Link of Project: https://github.com/nandabri/to-DoList
