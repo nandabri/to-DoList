@@ -1,7 +1,7 @@
-// ===== Internationalization =====
+// ===== Internacionalização =====
 let translations = {};
 
-// Load translations from JSON file
+// Carrega traduções do arquivo JSON
 async function loadTranslations() {
     try {
         const response = await fetch('translations.json');
@@ -12,7 +12,7 @@ async function loadTranslations() {
         console.log('Translations loaded successfully!');
     } catch (error) {
         console.error('Error loading translations:', error);
-        // Fallback translations in case the JSON file fails to load
+        // Traduções de fallback caso o arquivo JSON falhe ao carregar
         translations = {
             en: {
                 'page-title': 'My To-Do List',
@@ -30,7 +30,7 @@ let currentTheme = 'dark';
 function t(key, params = {}) {
     let text = translations[currentLang][key] || translations.en[key] || key;
 
-    // Simple pluralization
+    // Pluralização simples
     if (params.count !== undefined) {
         const isPlural = params.count !== 1;
         text = text.replace(/{count, plural, one \{([^}]+)\} other \{([^}]+)\}}/,
@@ -46,12 +46,12 @@ function updateLanguage(lang) {
     document.documentElement.lang = lang === 'he' ? 'he' : lang === 'pt' ? 'pt-BR' : 'en';
     document.documentElement.dir = lang === 'he' ? 'rtl' : 'ltr';
 
-    // Update language buttons
+    // Atualiza botões de idioma
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.lang === lang);
     });
 
-    // Update all translatable elements
+    // Atualiza todos os elementos traduzíveis
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.dataset.i18n;
         if (el.tagName === 'TITLE') {
@@ -61,13 +61,13 @@ function updateLanguage(lang) {
         }
     });
 
-    // Update placeholders
+    // Atualiza placeholders
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
         const key = el.dataset.i18nPlaceholder;
         const translatedText = t(key);
 
         if (el.type === 'date') {
-            // For date inputs, extract just the format part
+            // Para inputs de data, extrai apenas a parte do formato
             const formatMatch = translatedText.match(/\(([^)]+)\)/);
             const format = formatMatch ? formatMatch[1] : translatedText;
             el.setAttribute('data-placeholder', format);
@@ -76,10 +76,10 @@ function updateLanguage(lang) {
         }
     });
 
-    // Save language preference
+    // Salva preferência de idioma
     localStorage.setItem('todo.language', lang);
 
-    // Re-render to update dynamic content
+    // Re-renderiza para atualizar conteúdo dinâmico
     render();
 }
 
@@ -87,7 +87,7 @@ function updateTheme(theme) {
     currentTheme = theme;
     document.documentElement.setAttribute('data-theme', theme);
 
-    // Update theme toggle icon source
+    // Atualiza ícone do alternador de tema
     const themeToggle = document.getElementById('themeToggle');
     const themeImg = themeToggle?.querySelector('img');
     if (themeImg) {
@@ -95,7 +95,7 @@ function updateTheme(theme) {
         themeToggle.title = theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme';
     }
 
-    // Save theme preference
+    // Salva preferência de tema
     localStorage.setItem('todo.theme', theme);
 }
 
@@ -165,7 +165,7 @@ function renderItem(t) {
     text.textContent = t.text;
     text.title = translations[currentLang]['edit-placeholder'];
 
-    // Display due date if exists
+    // Exibe data de vencimento se existir
     if (t.dueDate) {
         const dueDateEl = document.createElement('div');
         dueDateEl.className = 'due-date';
@@ -243,10 +243,10 @@ function addTask(text, dueDate = null) {
     render();
 }
 
-// ===== API Functions =====
+// ===== Funções da API =====
 async function fetchInitialTasks() {
     try {
-        // Check if we already have tasks to avoid duplicate loading
+        // Verifica se já temos tarefas para evitar carregamento duplicado
         if (tasks.length > 0) return;
 
         console.log('Fetching initial tasks from API...');
@@ -259,41 +259,41 @@ async function fetchInitialTasks() {
         const apiTasks = await response.json();
         console.log('API Tasks received:', apiTasks);
 
-        // Convert API format to our task format
+        // Converte formato da API para nosso formato de tarefa
         const convertedTasks = apiTasks.map(apiTask => ({
-            id: uid(), // Generate new ID for our system
+            id: uid(), // Gera novo ID para nosso sistema
             text: apiTask.title,
             done: apiTask.completed,
             createdAt: Date.now(),
-            dueDate: null // API doesn't provide due dates
+            dueDate: null // API não fornece datas de vencimento
         }));
 
-        // Add converted tasks to our tasks array
+        // Adiciona tarefas convertidas ao nosso array de tarefas
         tasks.push(...convertedTasks);
 
-        // Save to localStorage
+        // Salva no localStorage
         save();
 
-        // Re-render the list
+        // Re-renderiza a lista
         render();
 
         console.log('Initial tasks loaded successfully!');
 
     } catch (error) {
         console.error('Error fetching initial tasks:', error);
-        // Show user-friendly error message
+        // Mostra mensagem de erro amigável ao usuário
         alert('Failed to load initial tasks from server. You can still add tasks manually.');
     }
 }
 
 function sortTasks() {
     tasks.sort((a, b) => {
-        // Tasks without due date go to the end
+        // Tarefas sem data de vencimento vão para o final
         if (!a.dueDate && !b.dueDate) return 0;
         if (!a.dueDate) return 1;
         if (!b.dueDate) return -1;
 
-        // Compare due dates
+        // Compara datas de vencimento
         return new Date(a.dueDate) - new Date(b.dueDate);
     });
 
@@ -365,15 +365,15 @@ $$('.tab').forEach(tab => {
 $('#clearCompleted').addEventListener('click', clearCompleted);
 $('#clearCompleted').addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); clearCompleted(); } });
 
-// Sort by date button
+// Botão de ordenar por data
 $('#sortByDate').addEventListener('click', sortTasks);
 
-// Language switching
+// Alternância de idioma
 $$('.lang-btn').forEach(btn => {
     btn.addEventListener('click', () => updateLanguage(btn.dataset.lang));
 });
 
-// Theme switching
+// Alternância de tema
 const themeToggle = document.getElementById('themeToggle');
 if (themeToggle) {
     themeToggle.addEventListener('click', () => {
@@ -384,25 +384,25 @@ if (themeToggle) {
 
 // ===== Inicialização =====
 async function initializeApp() {
-    // Load translations first
+    // Carrega traduções primeiro
     await loadTranslations();
 
-    // Load saved language and theme
+    // Carrega idioma e tema salvos
     const savedLang = localStorage.getItem('todo.language') || 'en';
     const savedTheme = localStorage.getItem('todo.theme') || 'dark';
 
     updateLanguage(savedLang);
     updateTheme(savedTheme);
 
-    // Load existing tasks from localStorage
+    // Carrega tarefas existentes do localStorage
     load();
 
-    // Fetch initial tasks from API if no tasks exist
+    // Busca tarefas iniciais da API se não existirem tarefas
     fetchInitialTasks();
 
     render();
     input.focus();
 }
 
-// Initialize the app when page loads
+// Inicializa o app quando a página carrega
 initializeApp();
