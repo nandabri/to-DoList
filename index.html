@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title data-i18n="page-title">My To-Do List</title>
+
+    <!-- Tipografia feminina/suave -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #241427;
+            /* fundo prof        <header>
+            <h1 id="appTitle" class="title" data-i18n="app-title"
+                style="text-align: center; padding: 24px 24px 12px; margin: 0;">
+                To-Do List</h1>
+            <div class="theme-selector mobile-only">
+                <button class="theme-btn" data-theme="light" title="Light theme">☀️</button>
+                <button class="theme-btn active" data-theme="dark" title="Dark theme">🌙</button>
+            </div>
+            <div class="language-selector mobile-only">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="pt">PT</button>
+                <button class="lang-btn" data-lang="he">עב</button>
+            </div>
+        </header>a */
+            --bg-accent: #2d1841;
+            /* roxo escuro */
+            --card: rgba(255, 255, 255, 0.10);
+            --text: #5b0271;
+            /* quase branco rosado */
+            --muted: #4f4452;
+            /* rosé suave */
+            --primary: #e68dff;
+            /* rosa */
+            --primary-strong: #7e04a6;
+            /* rosa mais forte */
+            --danger: #ff7b8b;
+            /* rosé avermelhado */
+            --success: #49e2b1;
+            /* mint para contraste */
+            --ring: #6808a0;
+            /* lilás */
+            --shadow: 0 8px 24px rgba(162, 65, 133, .35), 0 2px 6px rgba(162, 65, 133, .25);
+            --radius: 24px;
+        }
+
+        [data-theme="light"] {
+            --bg: #faf8ff;
+            --bg-accent: #f3ecff;
+            --card: rgba(255, 255, 255, .96);
+
+            --text: #141127;
+            --muted: #635b73;
+
+            --primary: #8b5cf6;
+            --primary-strong: #7c3aed;
+
+            --danger: #dc2626;
+            --success: #10b981;
+            --ring: #8b5cf6;
+
+            --shadow: 0 10px 28px rgba(20, 17, 39, .10), 0 2px 6px rgba(20, 17, 39, .08);
+        }
+
+
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+            color: var(--text);
+            background:
+                radial-gradient(1200px 600px at 10% -10%, #512c62 0%, transparent 60%),
+                radial-gradient(1000px 700px at 120% 10%, #3b1e4f 0%, transparent 60%),
+                linear-gradient(180deg, #1a0e26 0%, #150a1d 100%);
+            display: grid;
+            place-items: center;
+            padding: 32px 16px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        [data-theme="light"] body {
+            background: #ffffff;
+        }
+
+        /* Dark theme specific styles */
+        [data-theme="dark"] body {
+            background: #1b1b1b;
+        }
+
+        [data-theme="dark"] .app {
+            background: linear-gradient(145deg, #3c0660, #33035e);
+            box-shadow: 0 8px 24px rgba(60, 6, 96, 0.4), 0 2px 6px rgba(51, 3, 94, 0.3);
+        }
+
+        [data-theme="dark"] .title {
+            color: #ffffff;
+        }
+
+        [data-theme="dark"] .input {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, .25);
+            color: #ffffff;
+        }
+
+        [data-theme="dark"] .input::placeholder {
+            color: rgb(255, 255, 255);
+            font-size: 16px;
+        }
+
+        [data-theme="dark"] .input:focus {
+            border-color: #e68dff;
+            box-shadow: 0 0 0 4px rgba(230, 141, 255, .25), 0 10px 20px rgba(0, 0, 0, .12);
+            background: rgba(255, 255, 255, .20);
+        }
+
+        [data-theme="dark"] .btn {
+            background: linear-gradient(90deg, #7c3aed 0, #9c6ccc 100%);
+            color: #fff;
+            border-color: #460359;
+            box-shadow: 0 10px 24px rgba(124, 58, 237, 0.4);
+        }
+
+        [data-theme="light"] .btn {
+            box-shadow: 0 10px 24px rgba(139, 92, 246, 0.25);
+        }
+
+        [data-theme="dark"] .lang-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, .25);
+            color: #ffffff;
+        }
+
+        [data-theme="dark"] .lang-btn.active {
+            background: linear-gradient(90deg, #7c3aed 0, #9c6ccc 100%);
+            color: #ffffff;
+            border-color: #460359;
+        }
+
+        [data-theme="dark"] .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, .25);
+            border-color: rgba(255, 255, 255, .35);
+        }
+
+        [data-theme="dark"] .tab {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, .25);
+            color: #ffffff;
+        }
+
+        [data-theme="dark"] .tab[aria-selected="true"] {
+            color: #ffffff;
+            background: linear-gradient(90deg, #7c3aed 0, #9c6ccc 100%);
+            border-color: #460359;
+        }
+
+        [data-theme="dark"] .stats {
+            color: #ffffff;
+        }
+
+        [data-theme="dark"] .footer {
+            color: #ffffff;
+        }
+
+        [data-theme="dark"] .link {
+            color: #ffffff;
+        }
+
+        [data-theme="dark"] .link:hover {
+            color: #ffffff;
+        }
+
+        [data-theme="dark"] .text {
+            color: #ffffff;
+        }
+
+        [data-theme="dark"] .text.done {
+            color: #d0d1d3;
+        }
+
+        [data-theme="light"] .link {
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        [data-theme="light"] .link:hover {
+            text-decoration: underline;
+        }
+
+
+
+        .app {
+            width: min(860px, 100%);
+            background: linear-gradient(145deg, #e0c3fc, #8ec5fc);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, .10);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 24px 12px;
+        }
+
+        .title {
+            font-size: clamp(20px, 3.2vw, 28px);
+            letter-spacing: .4px;
+            font-weight: 700;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 0px;
+            width: 100%;
+            align-items: stretch;
+        }
+
+        .input-row #todoInput {
+            flex: 2;
+            border-radius: 14px 0 0 14px;
+        }
+
+        .input-row #dueDateInput {
+            flex: 1;
+            min-width: 140px;
+            border-radius: 0;
+            border-left: none;
+        }
+
+        .input-row .btn {
+            border-radius: 0 14px 14px 0;
+            margin-left: 0;
+        }
+
+        .input {
+            flex: 1;
+            background: var(--card);
+            border: 1px solid rgba(255, 255, 255, .14);
+            border-radius: 14px;
+            padding: 14px 16px;
+            color: var(--text);
+            outline: none;
+            box-shadow: inset 0 0 0 1px transparent, 0 10px 20px rgba(0, 0, 0, .08);
+            transition: box-shadow .2s, border-color .2s, background .2s;
+        }
+
+        /* Specific styling for date input */
+        input[type="date"] {
+            min-width: 160px;
+            padding: 14px 12px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Date input placeholder simulation */
+        input[type="date"]:invalid::-webkit-datetime-edit {
+            color: transparent;
+        }
+
+        input[type="date"]:invalid::before {
+            content: attr(data-placeholder);
+            color: var(--muted);
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        [data-theme="dark"] input[type="date"]:invalid::before {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .input::placeholder {
+            color: #000000;
+            font-size: 16px;
+        }
+
+        .input:focus {
+            border-color: var(--ring);
+            box-shadow: 0 0 0 4px rgba(243, 167, 255, .25), 0 10px 20px rgba(0, 0, 0, .12);
+            background: rgba(255, 255, 255, .10);
+        }
+
+        .btn {
+            background: linear-gradient(180deg, var(--primary), var(--primary-strong));
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            padding: 14px 18px;
+            border-radius: 14px;
+            font-weight: 700;
+            letter-spacing: .3px;
+            box-shadow: 0 10px 24px rgba(255, 103, 181, .38);
+            transition: transform .08s ease, filter .2s ease;
+            margin-left: 12px;
+        }
+
+        .btn:hover {
+            filter: brightness(1.06)
+        }
+
+        .btn:active {
+            transform: translateY(1px)
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 24px 16px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .tab {
+            background: var(--card);
+            border: 1px;
+            color: var(--muted);
+            padding: 8px 12px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: background .2s, color .2s, border-color .2s;
+            font-weight: 600;
+        }
+
+        .tab[aria-selected="true"] {
+            color: #fff;
+            background: linear-gradient(45deg, rgb(129, 46, 180), rgba(59, 2, 133, 0.35));
+        }
+
+        .stats {
+            margin-left: auto;
+            font-size: 14px;
+            color: var(--muted)
+        }
+
+        .list {
+            list-style: none;
+            margin: 0;
+            padding: 8px 12px 6px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .item {
+            display: grid;
+            grid-template-columns: 36px 1fr auto;
+            align-items: center;
+            gap: 12px;
+            background: var(--card);
+            border: 1px solid rgba(255, 255, 255, .10);
+            border-radius: 16px;
+            padding: 10px 12px 10px 8px;
+            transition: background .2s, border-color .2s;
+        }
+
+        .item:hover {
+            border-color: rgba(255, 255, 255, .18)
+        }
+
+        .checkbox {
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            border: 2px solid #89559dd0;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            background: rgba(255, 255, 255, .08);
+            transition: all .15s;
+            margin-left: 6px;
+        }
+
+        .checkbox:checked {
+            background: conic-gradient(from 180deg at 50% 50%, var(--success), #18b57a);
+            border-color: transparent;
+        }
+
+        .checkbox:checked::after {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
+            background: #0a1322;
+        }
+
+        .text {
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+        .text.done {
+            color: #837c86;
+            text-decoration: line-through
+        }
+
+        .actions {
+            display: flex;
+            gap: 6px
+        }
+
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, .1);
+            background: rgba(255, 255, 255, .08);
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            transition: transform .08s ease, background .2s, border-color .2s, filter .2s;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, .12);
+            border-color: rgba(255, 255, 255, .22)
+        }
+
+        .icon-btn:active {
+            transform: translateY(1px)
+        }
+
+        .icon {
+            width: 18px;
+            height: 18px;
+            display: inline-block
+        }
+
+        .danger {
+            border-color: transparent;
+        }
+
+        .danger:hover {
+            filter: saturate(1.08)
+        }
+
+        .footer {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px 22px;
+            color: var(--muted)
+        }
+
+        .link {
+            cursor: pointer;
+            text-decoration: underline;
+            text-underline-offset: 3px
+        }
+
+        /* Language selector */
+        .language-selector {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .mobile-only {
+            display: none;
+        }
+
+        /* Theme toggle */
+        .theme-toggle {
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            padding: 4px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            user-select: none;
+            display: block;
+            margin: 0 auto 16px auto;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] .theme-toggle:hover {
+            background: rgba(45, 24, 65, 0.1);
+        }
+
+        .theme-toggle img {
+            width: 100%;
+            height: 100%;
+            filter: brightness(0) invert(1);
+            transition: filter 0.2s;
+        }
+
+        [data-theme="light"] .theme-toggle img {
+            filter: brightness(0) invert(0.2);
+        }
+
+        .lang-btn {
+            background: var(--card);
+            border: 1px solid rgba(255, 255, 255, .14);
+            color: var(--muted);
+            padding: 6px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all .2s;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, .12);
+            border-color: rgba(255, 255, 255, .22);
+        }
+
+        /* RTL Support for Hebrew */
+        [dir="rtl"] .input-row {
+            direction: rtl;
+        }
+
+        [dir="rtl"] .input-row #todoInput {
+            border-radius: 0 14px 14px 0;
+            border-left: 1px solid rgba(255, 255, 255, .14);
+            border-right: none;
+        }
+
+        [dir="rtl"] .input-row #dueDateInput {
+            border-left: 1px solid rgba(255, 255, 255, .14);
+            border-right: none;
+        }
+
+        [dir="rtl"] .input-row .btn {
+            border-radius: 14px 0 0 14px;
+        }
+
+        [dir="rtl"] .input {
+            text-align: right;
+        }
+
+        [dir="rtl"] input[type="date"] {
+            text-align: center;
+        }
+
+        [dir="rtl"] .language-selector {
+            left: 24px;
+            right: auto;
+        }
+
+
+
+        /* Small screens */
+        @media (max-width:560px) {
+            .app {
+                margin-top: 299px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px
+            }
+
+            .input-row {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .input-row .input {
+                min-width: 0;
+                border: 1px solid rgba(255, 255, 255, .14);
+            }
+
+            .input-row #todoInput {
+                flex: none;
+                border-radius: 0;
+                border-bottom: none;
+            }
+
+            .input-row #dueDateInput {
+                flex: none;
+                min-width: auto;
+                border-radius: 0;
+                border-top: none;
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: textfield;
+            }
+
+            .input-row .btn {
+                margin-left: 0;
+                margin-top: 8px;
+                border-radius: 0;
+            }
+
+            /* Force date input to show full format on mobile */
+            #dueDateInput::-webkit-datetime-edit {
+                display: block;
+            }
+
+            #dueDateInput::-webkit-datetime-edit-year-field {
+                display: inline-block;
+            }
+
+            .stats {
+                margin-left: 0
+            }
+
+            .app .language-selector:not(.mobile-only) {
+                display: none;
+            }
+
+            .app .language-selector.mobile-only {
+                display: flex;
+                position: relative;
+                top: 0;
+                right: 0;
+                left: 0;
+                justify-content: center;
+                margin-bottom: 16px;
+                padding: 0 16px;
+            }
+
+            /* RTL Mobile Support */
+            [dir="rtl"] .input-row #todoInput {
+                border-radius: 0;
+                border-bottom: none;
+                border-left: 1px solid rgba(255, 255, 255, .14);
+                border-right: 1px solid rgba(255, 255, 255, .14);
+            }
+
+            [dir="rtl"] .input-row #dueDateInput {
+                border-radius: 0;
+                border-top: none;
+                border-left: 1px solid rgba(255, 255, 255, .14);
+                border-right: 1px solid rgba(255, 255, 255, .14);
+            }
+
+            [dir="rtl"] .input-row .btn {
+                border-radius: 0;
+            }
+        }
+
+        /* Classe utilitária apenas para acessibilidade visual */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0
+        }
+    </style>
+</head>
+
+<body>
+    <main class="app" aria-labelledby="appTitle">
+        <div class="language-selector">
+            <button class="lang-btn active" data-lang="en">EN</button>
+            <button class="lang-btn" data-lang="pt">PT</button>
+            <button class="lang-btn" data-lang="he">עב</button>
+        </div>
+        <header>
+            <h1 id="appTitle" class="title" data-i18n="app-title"
+                style="text-align: center; padding: 24px 24px 12px; margin: 0;">
+                To-Do List</h1>
+            <div class="theme-toggle" id="themeToggle" title="Toggle theme">
+                <img src="../image/light-theme.svg" alt="Toggle theme" />
+            </div>
+            <div class="language-selector mobile-only">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="pt">PT</button>
+                <button class="lang-btn" data-lang="he">עב</button>
+            </div>
+        </header>
+        <section class="header">
+            <form id="todoForm" class="input-row" autocomplete="off">
+                <label class="sr-only" for="todoInput" data-i18n="new-task-label">New task</label>
+                <input class="input" id="todoInput" name="todo" type="text" data-i18n-placeholder="input-placeholder"
+                    placeholder="What do you need to do?" minlength="1" maxlength="120" style="flex: 2;" />
+                <input class="input" id="dueDateInput" name="dueDate" type="date"
+                    data-i18n-placeholder="due-date-placeholder" data-placeholder="mm/dd/yyyy"
+                    style="flex: 1; min-width: 140px; border-left: none;" pattern="\d{4}-\d{2}-\d{2}" />
+                <button type="submit" class="btn" aria-label="Add task" data-i18n="add-btn"
+                    style="margin-left: 0;">Add</button>
+            </form>
+        </section>
+
+        <nav class="toolbar" aria-label="Task filters">
+            <div class="tabs" role="tablist" aria-label="Filters">
+                <button class="tab" role="tab" data-filter="all" data-i18n="filter-all"
+                    aria-selected="true">All</button>
+                <button class="tab" role="tab" data-filter="active" data-i18n="filter-active"
+                    aria-selected="false">Active</button>
+                <button class="tab" role="tab" data-filter="done" data-i18n="filter-done"
+                    aria-selected="false">Completed</button>
+            </div>
+            <button class="btn" id="sortByDate" data-i18n="sort-by-date"
+                style="padding: 6px 12px; font-size: 12px;">Sort by Date</button>
+            <div class="stats" id="stats" aria-live="polite"></div>
+        </nav>
+
+        <ul id="list" class="list" role="list" aria-live="polite"></ul>
+
+        <footer class="footer">
+            <span data-i18n="edit-tip">Tip: double click on text to edit ✏️</span>
+            <span class="link" id="clearCompleted" role="button" tabindex="0" data-i18n="clear-completed">Clear
+                completed</span>
+        </footer>
+    </main>
+
+    <script>
+        // ===== Internationalization =====
+        const translations = {
+            en: {
+                'page-title': 'My To-Do List',
+                'app-title': 'To-Do List',
+                'new-task-label': 'New task',
+                'input-placeholder': 'What do you need to do?',
+                'due-date-placeholder': 'Due date (mm/dd/yyyy)',
+                'add-btn': 'Add',
+                'filter-all': 'All',
+                'filter-active': 'Active',
+                'filter-done': 'Completed',
+                'sort-by-date': 'Sort by Date',
+                'edit-tip': 'Tip: double click on text to edit ✏️',
+                'clear-completed': 'Clear completed',
+                'empty-message': 'Nothing here… add a task above 👆',
+                'all-done': 'All done ✨',
+                'tasks-remaining': '{count} {count, plural, one {task remaining} other {tasks remaining}}',
+                'mark-complete': 'Mark as completed',
+                'mark-incomplete': 'Mark as incomplete',
+                'edit': 'Edit',
+                'delete': 'Delete',
+                'edit-placeholder': 'Double click to edit',
+                'overdue': 'Overdue!'
+            },
+            pt: {
+                'page-title': 'Minha Lista de Tarefas',
+                'app-title': 'Lista de Tarefas',
+                'new-task-label': 'Nova tarefa',
+                'input-placeholder': 'O que você precisa fazer?',
+                'due-date-placeholder': 'Data de vencimento (dd/mm/aaaa)',
+                'add-btn': 'Adicionar',
+                'filter-all': 'Todas',
+                'filter-active': 'Ativas',
+                'filter-done': 'Concluídas',
+                'sort-by-date': 'Ordenar por Data',
+                'edit-tip': 'Dica: duplo clique no texto para editar ✏️',
+                'clear-completed': 'Limpar concluídas',
+                'empty-message': 'Nada por aqui… adicione uma tarefa acima 👆',
+                'all-done': 'Tudo em dia ✨',
+                'tasks-remaining': '{count} {count, plural, one {tarefa restante} other {tarefas restantes}}',
+                'mark-complete': 'Marcar como concluída',
+                'mark-incomplete': 'Desmarcar como concluída',
+                'edit': 'Editar',
+                'delete': 'Excluir',
+                'edit-placeholder': 'Duplo clique para editar',
+                'overdue': 'Vencida!'
+            },
+            he: {
+                'page-title': 'רשימת המשימות שלי',
+                'app-title': 'רשימת משימות',
+                'new-task-label': 'משימה חדשה',
+                'input-placeholder': 'מה אתה צריך לעשות?',
+                'due-date-placeholder': 'תאריך יעד (dd/mm/yyyy)',
+                'add-btn': 'הוסף',
+                'filter-all': 'הכל',
+                'filter-active': 'פעילות',
+                'filter-done': 'הושלמו',
+                'sort-by-date': 'מיין לפי תאריך יעד',
+                'edit-tip': 'עצה: לחץ פעמיים על הטקסט לעריכה ✏️',
+                'clear-completed': 'נקה הושלמו',
+                'empty-message': 'שום דבר כאן... הוסף משימה למעלה 👆',
+                'all-done': 'הכל בסדר ✨',
+                'tasks-remaining': '{count} {count, plural, one {משימה נותרה} other {משימות נותרו}}',
+                'mark-complete': 'סמן כהושלם',
+                'mark-incomplete': 'בטל סימון כהושלם',
+                'edit': 'ערוך',
+                'delete': 'מחק',
+                'edit-placeholder': 'לחץ פעמיים לעריכה',
+                'overdue': 'פג תוקף!'
+            }
+        };
+
+        let currentLang = 'en';
+        let currentTheme = 'dark';
+
+        function t(key, params = {}) {
+            let text = translations[currentLang][key] || translations.en[key] || key;
+
+            // Simple pluralization
+            if (params.count !== undefined) {
+                const isPlural = params.count !== 1;
+                text = text.replace(/{count, plural, one \{([^}]+)\} other \{([^}]+)\}}/,
+                    isPlural ? '$2' : '$1');
+                text = text.replace(/{count}/g, params.count);
+            }
+
+            return text;
+        }
+
+        function updateLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang === 'he' ? 'he' : lang === 'pt' ? 'pt-BR' : 'en';
+            document.documentElement.dir = lang === 'he' ? 'rtl' : 'ltr';
+
+            // Update language buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            // Update all translatable elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (el.tagName === 'TITLE') {
+                    el.textContent = t(key);
+                } else {
+                    el.textContent = t(key);
+                }
+            });
+
+            // Update placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.dataset.i18nPlaceholder;
+                const translatedText = t(key);
+
+                if (el.type === 'date') {
+                    // For date inputs, extract just the format part
+                    const formatMatch = translatedText.match(/\(([^)]+)\)/);
+                    const format = formatMatch ? formatMatch[1] : translatedText;
+                    el.setAttribute('data-placeholder', format);
+                } else {
+                    el.placeholder = translatedText;
+                }
+            });
+
+            // Save language preference
+            localStorage.setItem('todo.language', lang);
+
+            // Re-render to update dynamic content
+            render();
+        }
+
+        function updateTheme(theme) {
+            currentTheme = theme;
+            document.documentElement.setAttribute('data-theme', theme);
+
+            // Update theme toggle icon source
+            const themeToggle = document.getElementById('themeToggle');
+            const themeImg = themeToggle?.querySelector('img');
+            if (themeImg) {
+                themeImg.src = theme === 'light' ? '../image/dark-theme.svg' : '../image/light-theme.svg';
+                themeToggle.title = theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme';
+            }
+
+            // Save theme preference
+            localStorage.setItem('todo.theme', theme);
+        }
+
+        // ===== Utilidades =====
+        const $ = (sel, root = document) => root.querySelector(sel);
+        const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+        const STORAGE_KEY = 'todo.tasks.feminine.v1';
+
+        /** @type {{id:string,text:string,done:boolean,createdAt:number,dueDate:string|null}[]} */
+        let tasks = [];
+        let filter = 'all'; // 'all' | 'active' | 'done'
+
+        function uid() { return Math.random().toString(36).slice(2, 9) }
+
+        function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks)) }
+        function load() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                tasks = raw ? JSON.parse(raw) : [];
+            } catch (e) { tasks = [] }
+        }
+
+        function setFilter(next) {
+            filter = next;
+            $$('.tab').forEach(t => t.setAttribute('aria-selected', String(t.dataset.filter === filter)));
+            render();
+        }
+
+        // ===== Renderização =====
+        const listEl = $('#list');
+        const statsEl = $('#stats');
+
+        function render() {
+            const visible = tasks.filter(t => filter === 'all' ? true : filter === 'active' ? !t.done : t.done);
+            listEl.innerHTML = '';
+
+            if (visible.length === 0) {
+                const empty = document.createElement('li');
+                empty.className = 'item';
+                empty.innerHTML = `<div></div><div class="text" style="opacity:.85">${t('empty-message')}</div><div></div>`;
+                listEl.appendChild(empty);
+            } else {
+                for (const t of visible) { listEl.appendChild(renderItem(t)); }
+            }
+
+            const remaining = tasks.filter(t => !t.done).length;
+            statsEl.textContent = remaining === 0 ? t('all-done') : t('tasks-remaining', { count: remaining });
+        }
+
+        function renderItem(t) {
+            const li = document.createElement('li');
+            li.className = 'item';
+            li.dataset.id = t.id;
+
+            const cb = document.createElement('input');
+            cb.type = 'checkbox';
+            cb.className = 'checkbox';
+            cb.checked = t.done;
+            cb.ariaLabel = t.done ? translations[currentLang]['mark-incomplete'] : translations[currentLang]['mark-complete'];
+
+            const textContainer = document.createElement('div');
+            textContainer.style.flex = '1';
+
+            const text = document.createElement('div');
+            text.className = 'text' + (t.done ? ' done' : '');
+            text.textContent = t.text;
+            text.title = translations[currentLang]['edit-placeholder'];
+
+            // Display due date if exists
+            if (t.dueDate) {
+                const dueDateEl = document.createElement('div');
+                dueDateEl.className = 'due-date';
+                dueDateEl.style.fontSize = '12px';
+                dueDateEl.style.color = 'var(--muted)';
+                dueDateEl.style.marginTop = '4px';
+
+                const dueDate = new Date(t.dueDate);
+                const isOverdue = dueDate < new Date() && !t.done;
+                if (isOverdue) {
+                    dueDateEl.style.color = 'var(--danger)';
+                    dueDateEl.textContent = `📅 ${dueDate.toLocaleDateString()} (${translations[currentLang]['overdue']})`;
+                } else {
+                    dueDateEl.textContent = `📅 ${dueDate.toLocaleDateString()}`;
+                }
+                textContainer.append(text, dueDateEl);
+            } else {
+                textContainer.append(text);
+            }
+
+            // Ações
+            const actions = document.createElement('div');
+            actions.className = 'actions';
+
+            const btnEdit = iconButton(translations[currentLang]['edit'], pencilIcon());
+            const btnDel = iconButton(translations[currentLang]['delete'], trashIcon(), 'danger');
+
+            // Eventos
+            cb.addEventListener('change', () => toggleDone(t.id));
+            btnDel.addEventListener('click', () => removeTask(t.id));
+            btnEdit.addEventListener('click', () => startEdit(li, t));
+            text.addEventListener('dblclick', () => startEdit(li, t));
+
+            li.append(cb, textContainer, actions);
+            actions.append(btnEdit, btnDel);
+            return li;
+        }
+
+        function iconButton(label, svg, extraClass = '') {
+            const b = document.createElement('button');
+            b.className = 'icon-btn ' + extraClass;
+            b.type = 'button';
+            b.title = label;
+            b.ariaLabel = label;
+            b.innerHTML = svg;
+            return b;
+        }
+
+        function pencilIcon() {
+            return `<svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M14.06 4.69l3.75 3.75 1.65-1.65a1.5 1.5 0 0 0 0-2.12l-1.63-1.63a1.5 1.5 0 0 0-2.12 0l-1.65 1.65z" stroke="currentColor" stroke-width="1.6"/>
+      </svg>`;
+        }
+        function trashIcon() {
+            return `<svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M4 7h16" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M10 7V5a2 2 0 0 1 2-2v0a2 2 0 0 1 2 2v2" stroke="currentColor" stroke-width="1.8"/>
+      </svg>`;
+        }
+
+        // ===== Ações =====
+        function addTask(text, dueDate = null) {
+            const trimmed = text.trim();
+            if (!trimmed) return;
+            tasks.unshift({
+                id: uid(),
+                text: trimmed,
+                done: false,
+                createdAt: Date.now(),
+                dueDate: dueDate || null
+            });
+            save();
+            render();
+        }
+
+        // ===== API Functions =====
+        async function fetchInitialTasks() {
+            try {
+                // Check if we already have tasks to avoid duplicate loading
+                if (tasks.length > 0) return;
+
+                console.log('Fetching initial tasks from API...');
+                const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=5');
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const apiTasks = await response.json();
+                console.log('API Tasks received:', apiTasks);
+
+                // Convert API format to our task format
+                const convertedTasks = apiTasks.map(apiTask => ({
+                    id: uid(), // Generate new ID for our system
+                    text: apiTask.title,
+                    done: apiTask.completed,
+                    createdAt: Date.now(),
+                    dueDate: null // API doesn't provide due dates
+                }));
+
+                // Add converted tasks to our tasks array
+                tasks.push(...convertedTasks);
+
+                // Save to localStorage
+                save();
+
+                // Re-render the list
+                render();
+
+                console.log('Initial tasks loaded successfully!');
+
+            } catch (error) {
+                console.error('Error fetching initial tasks:', error);
+                // Show user-friendly error message
+                alert('Failed to load initial tasks from server. You can still add tasks manually.');
+            }
+        }
+
+        function sortTasks() {
+            tasks.sort((a, b) => {
+                // Tasks without due date go to the end
+                if (!a.dueDate && !b.dueDate) return 0;
+                if (!a.dueDate) return 1;
+                if (!b.dueDate) return -1;
+
+                // Compare due dates
+                return new Date(a.dueDate) - new Date(b.dueDate);
+            });
+
+            save();
+            render();
+        }
+
+        function toggleDone(id) {
+            const t = tasks.find(x => x.id === id);
+            if (!t) return;
+            t.done = !t.done;
+            save();
+            render();
+        }
+
+        function removeTask(id) {
+            tasks = tasks.filter(t => t.id !== id);
+            save();
+            render();
+        }
+
+        function startEdit(li, t) {
+            const textEl = li.querySelector('.text');
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = t.text;
+            input.className = 'input';
+            input.style.padding = '10px 12px';
+            textEl.replaceWith(input);
+            input.focus();
+            input.setSelectionRange(t.text.length, t.text.length);
+
+            function commit() {
+                const v = input.value.trim();
+                if (v) { t.text = v; save(); }
+                render();
+            }
+            function cancel() { render(); }
+            input.addEventListener('keydown', e => {
+                if (e.key === 'Enter') commit();
+                else if (e.key === 'Escape') cancel();
+            });
+            input.addEventListener('blur', commit);
+        }
+
+        function clearCompleted() {
+            const had = tasks.some(t => t.done);
+            tasks = tasks.filter(t => !t.done);
+            if (had) { save(); render(); }
+        }
+
+        // ===== Eventos UI =====
+        const form = $('#todoForm');
+        const input = $('#todoInput');
+        const dueDateInput = $('#dueDateInput');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            addTask(input.value, dueDateInput.value);
+            input.value = '';
+            dueDateInput.value = '';
+            input.focus();
+        });
+
+        $$('.tab').forEach(tab => {
+            tab.addEventListener('click', () => setFilter(tab.dataset.filter));
+        });
+
+        $('#clearCompleted').addEventListener('click', clearCompleted);
+        $('#clearCompleted').addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); clearCompleted(); } });
+
+        // Sort by date button
+        $('#sortByDate').addEventListener('click', sortTasks);
+
+        // Language switching
+        $$('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => updateLanguage(btn.dataset.lang));
+        });
+
+        // Theme switching
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                updateTheme(newTheme);
+            });
+        }
+
+        // ===== Inicialização =====
+        // Load saved language and theme
+        const savedLang = localStorage.getItem('todo.language') || 'en';
+        const savedTheme = localStorage.getItem('todo.theme') || 'dark';
+
+        updateLanguage(savedLang);
+        updateTheme(savedTheme);
+
+        // Load existing tasks from localStorage
+        load();
+
+        // Fetch initial tasks from API if no tasks exist
+        fetchInitialTasks();
+
+        render();
+        input.focus();
+    </script>
+</body>
+
+</html>
