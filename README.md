@@ -2,6 +2,8 @@
 
 A modern task list application with multilingual support, light/dark themes and advanced features.
 
+Link of To-Do List: https://github.com/nandabri/to-DoList
+
 ## ✨ Features
 
 - ✅ Add, edit and remove tasks
@@ -82,4 +84,4 @@ Open a Pull Request and share it with the community 💡
 To get in touch with me, send a message on my website https://nandabri.github.io/myPortfolio/
 
 
-Link of Project: https://github.com/nandabri/to-DoList
+
