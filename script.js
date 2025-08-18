@@ -56,6 +56,9 @@ function updateLanguage(lang) {
         const key = el.dataset.i18n;
         if (el.tagName === 'TITLE') {
             el.textContent = t(key);
+        } else if (el.tagName === 'BUTTON' && el.hasAttribute('title')) {
+            el.title = t(key);
+            el.setAttribute('aria-label', t(key));
         } else {
             el.textContent = t(key);
         }
@@ -488,6 +491,9 @@ async function initializeApp() {
     // Configura input de data para mobile
     setupDateInput();
 
+    // Configura botão scroll to top
+    setupScrollToTop();
+
     // Carrega tarefas existentes do localStorage
     load();
 
@@ -500,3 +506,41 @@ async function initializeApp() {
 
 // Inicializa o app quando a página carrega
 initializeApp();
+
+// ===== Funcionalidade Scroll to Top =====
+function setupScrollToTop() {
+    const scrollToTopBtn = document.getElementById('scrollToTop');
+
+    if (!scrollToTopBtn) return;
+
+    // Mostra/esconde o botão baseado no scroll
+    function toggleScrollButton() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const shouldShow = scrollTop > 300; // Mostra após 300px de scroll
+
+        scrollToTopBtn.classList.toggle('show', shouldShow);
+    }
+
+    // Função para voltar ao topo
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+
+    // Event listeners
+    window.addEventListener('scroll', toggleScrollButton, { passive: true });
+    scrollToTopBtn.addEventListener('click', scrollToTop);
+
+    // Suporte para teclado
+    scrollToTopBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            scrollToTop();
+        }
+    });
+
+    // Verifica inicialmente
+    toggleScrollButton();
+}

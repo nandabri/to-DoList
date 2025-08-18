@@ -22,7 +22,8 @@
         "edit-placeholder": "Double click to edit",
         "overdue": "Overdue!",
         "select-date": "Select a date",
-        "format-example": "Example"
+        "format-example": "Example",
+        "scroll-to-top": "Back to top"
     },
     "pt": {
         "page-title": "Minha Lista de Tarefas",
@@ -47,7 +48,8 @@
         "edit-placeholder": "Duplo clique para editar",
         "overdue": "Vencida!",
         "select-date": "Selecione uma data",
-        "format-example": "Exemplo"
+        "format-example": "Exemplo",
+        "scroll-to-top": "Voltar ao topo"
     },
     "he": {
         "page-title": "רשימת המשימות שלי",
@@ -72,6 +74,7 @@
         "edit-placeholder": "לחץ פעמיים לעריכה",
         "overdue": "פג תוקף!",
         "select-date": "בחר תאריך",
-        "format-example": "דוגמה"
+        "format-example": "דוגמה",
+        "scroll-to-top": "חזור למעלה"
     }
 }
