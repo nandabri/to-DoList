@@ -350,6 +350,94 @@ const form = $('#todoForm');
 const input = $('#todoInput');
 const dueDateInput = $('#dueDateInput');
 
+// Melhoria para input de data no mobile
+function setupDateInput() {
+    if (dueDateInput) {
+        // Detecta se é um dispositivo mobile
+        const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        if (isMobile) {
+            // Força o tipo date mesmo em browsers que podem ter problemas
+            dueDateInput.setAttribute('type', 'date');
+            dueDateInput.setAttribute('pattern', '[0-9]{4}-[0-9]{2}-[0-9]{2}');
+
+            // Adiciona evento para garantir que o calendário abra no toque
+            dueDateInput.addEventListener('touchstart', function (e) {
+                // Força o foco no input de data
+                this.focus();
+                this.click();
+            }, { passive: true });
+
+            // Testa se o input de data funciona corretamente
+            const testDate = '2023-01-01';
+            dueDateInput.value = testDate;
+
+            // Se o valor não foi definido corretamente, o browser não suporta input date
+            if (dueDateInput.value !== testDate) {
+                console.log('Native date input not supported, creating custom date picker');
+                createCustomDatePicker();
+            } else {
+                // Limpa o valor de teste
+                dueDateInput.value = '';
+            }
+
+            // Fallback para dispositivos que não suportam input type="date"
+            dueDateInput.addEventListener('focus', function () {
+                if (this.type !== 'date') {
+                    this.type = 'date';
+                }
+            });
+        }
+    }
+}
+
+// Cria um seletor de data customizado para dispositivos sem suporte nativo
+function createCustomDatePicker() {
+    // Remove atributos do input nativo
+    dueDateInput.removeAttribute('type');
+    dueDateInput.setAttribute('type', 'text');
+    dueDateInput.setAttribute('readonly', 'true');
+    dueDateInput.setAttribute('data-type', 'date');
+    dueDateInput.style.cursor = 'pointer';
+
+    // Cria interface customizada
+    dueDateInput.addEventListener('click', showCustomDatePicker);
+    dueDateInput.addEventListener('touchstart', showCustomDatePicker, { passive: true });
+}
+
+function showCustomDatePicker() {
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth();
+    const currentDay = today.getDate();
+
+    // Cria um prompt simples para seleção de data
+    const dateStr = prompt(
+        `${t('select-date')} (${t('format-example')}: ${currentDay}/${currentMonth + 1}/${currentYear})`,
+        `${currentDay}/${currentMonth + 1}/${currentYear}`
+    );
+
+    if (dateStr) {
+        // Tenta parsear a data inserida
+        const parts = dateStr.split('/');
+        if (parts.length === 3) {
+            const day = parseInt(parts[0]);
+            const month = parseInt(parts[1]);
+            const year = parseInt(parts[2]);
+
+            if (day >= 1 && day <= 31 && month >= 1 && month <= 12 && year >= 1900) {
+                const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+                dueDateInput.value = formattedDate;
+                dueDateInput.setAttribute('data-display-date', `${day}/${month}/${year}`);
+
+                // Atualiza o placeholder visual
+                const placeholder = dueDateInput.getAttribute('data-placeholder');
+                dueDateInput.style.setProperty('--placeholder-text', `"📅 ${day}/${month}/${year}"`);
+            }
+        }
+    }
+}
+
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     addTask(input.value, dueDateInput.value);
@@ -393,6 +481,9 @@ async function initializeApp() {
 
     updateLanguage(savedLang);
     updateTheme(savedTheme);
+
+    // Configura input de data para mobile
+    setupDateInput();
 
     // Carrega tarefas existentes do localStorage
     load();
