@@ -772,7 +772,7 @@ input[type="text"][data-type="date"] {
     }
 
     .app {
-        margin: 80px auto 40px auto;
+        margin: 20px auto 40px auto;
         width: 100%;
         max-width: none;
     }
