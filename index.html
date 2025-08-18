@@ -6,65 +6,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title data-i18n="page-title">My To-Do List</title>
 
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Modern task management application with multilingual support, themes, and advanced features. Manage your daily tasks efficiently with due dates, filters, and synchronization." />
+    <meta name="keywords"
+        content="task manager, todo list, productivity, task organization, JavaScript, HTML5, CSS3, multilingual app, task tracking, project management" />
+    <meta name="author" content="Nandabri" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="en" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Task Manager - Modern To-Do List Application" />
+    <meta property="og:description"
+        content="Efficient task management with multilingual support, themes, and advanced filtering. Organize your daily tasks with style and functionality." />
+    <meta property="og:url" content="https://nandabri.github.io/to-DoList/" />
+    <meta property="og:site_name" content="Task Manager App" />
+    <meta property="og:image" content="https://nandabri.github.io/to-DoList/image/app-preview.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Task Manager - Modern To-Do List Application" />
+    <meta name="twitter:description"
+        content="Efficient task management with multilingual support, themes, and advanced filtering. Organize your daily tasks with style and functionality." />
+    <meta name="twitter:image" content="https://nandabri.github.io/to-DoList/image/app-preview.png" />
+    <meta name="twitter:creator" content="@nandabri" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#8b5cf6" />
+    <meta name="msapplication-TileColor" content="#8b5cf6" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://nandabri.github.io/to-DoList/" />
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <main class="app" aria-labelledby="appTitle">
-        <div class="language-selector">
-            <button class="lang-btn active" data-lang="en">EN</button>
-            <button class="lang-btn" data-lang="pt">PT</button>
-            <button class="lang-btn" data-lang="he">עב</button>
-        </div>
-        <header>
-            <h1 id="appTitle" class="title" data-i18n="app-title"
-                style="text-align: center; padding: 24px 24px 12px; margin: 0;">
-                To-Do List</h1>
-            <div class="theme-toggle" id="themeToggle" title="Toggle theme">
-                <img src="image/light-theme.svg" alt="Toggle theme" />
-            </div>
-            <div class="language-selector mobile-only">
+    <div class="page-container">
+        <main class="app" aria-labelledby="appTitle">
+            <div class="language-selector">
                 <button class="lang-btn active" data-lang="en">EN</button>
                 <button class="lang-btn" data-lang="pt">PT</button>
                 <button class="lang-btn" data-lang="he">עב</button>
             </div>
-        </header>
-        <section class="header">
-            <form id="todoForm" class="input-row" autocomplete="off">
-                <label class="sr-only" for="todoInput" data-i18n="new-task-label">New task</label>
-                <input class="input" id="todoInput" name="todo" type="text" data-i18n-placeholder="input-placeholder"
-                    placeholder="What do you need to do?" minlength="1" maxlength="120" style="flex: 2;" />
-                <input class="input" id="dueDateInput" name="dueDate" type="date"
-                    data-i18n-placeholder="due-date-placeholder" data-placeholder="mm/dd/yyyy"
-                    style="flex: 1; min-width: 140px; border-left: none;" pattern="\d{4}-\d{2}-\d{2}" />
-                <button type="submit" class="btn" aria-label="Add task" data-i18n="add-btn"
-                    style="margin-left: 0;">Add</button>
-            </form>
-        </section>
+            <header>
+                <h1 id="appTitle" class="title" data-i18n="app-title"
+                    style="text-align: center; padding: 24px 24px 12px; margin: 0;">
+                    To-Do List</h1>
+                <div class="theme-toggle" id="themeToggle" title="Toggle theme">
+                    <img src="image/light-theme.svg" alt="Toggle theme" />
+                </div>
+                <div class="language-selector mobile-only">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="pt">PT</button>
+                    <button class="lang-btn" data-lang="he">עב</button>
+                </div>
+            </header>
+            <section class="header">
+                <form id="todoForm" class="input-row" autocomplete="off">
+                    <label class="sr-only" for="todoInput" data-i18n="new-task-label">New task</label>
+                    <input class="input" id="todoInput" name="todo" type="text"
+                        data-i18n-placeholder="input-placeholder" placeholder="What do you need to do?" minlength="1"
+                        maxlength="120" style="flex: 2;" />
+                    <input class="input" id="dueDateInput" name="dueDate" type="date"
+                        data-i18n-placeholder="due-date-placeholder" data-placeholder="mm/dd/yyyy"
+                        style="flex: 1; min-width: 140px; border-left: none;" pattern="\d{4}-\d{2}-\d{2}" />
+                    <button type="submit" class="btn" aria-label="Add task" data-i18n="add-btn"
+                        style="margin-left: 0;">Add</button>
+                </form>
+            </section>
 
-        <nav class="toolbar" aria-label="Task filters">
-            <div class="tabs" role="tablist" aria-label="Filters">
-                <button class="tab" role="tab" data-filter="all" data-i18n="filter-all"
-                    aria-selected="true">All</button>
-                <button class="tab" role="tab" data-filter="active" data-i18n="filter-active"
-                    aria-selected="false">Active</button>
-                <button class="tab" role="tab" data-filter="done" data-i18n="filter-done"
-                    aria-selected="false">Completed</button>
-            </div>
-            <button class="btn" id="sortByDate" data-i18n="sort-by-date"
-                style="padding: 6px 12px; font-size: 12px;">Sort by Date</button>
-            <div class="stats" id="stats" aria-live="polite"></div>
-        </nav>
+            <nav class="toolbar" aria-label="Task filters">
+                <div class="tabs" role="tablist" aria-label="Filters">
+                    <button class="tab" role="tab" data-filter="all" data-i18n="filter-all"
+                        aria-selected="true">All</button>
+                    <button class="tab" role="tab" data-filter="active" data-i18n="filter-active"
+                        aria-selected="false">Active</button>
+                    <button class="tab" role="tab" data-filter="done" data-i18n="filter-done"
+                        aria-selected="false">Completed</button>
+                </div>
+                <button class="btn" id="sortByDate" data-i18n="sort-by-date"
+                    style="padding: 6px 12px; font-size: 12px;">Sort by Date</button>
+                <div class="stats" id="stats" aria-live="polite"></div>
+            </nav>
 
-        <ul id="list" class="list" role="list" aria-live="polite"></ul>
+            <ul id="list" class="list" role="list" aria-live="polite"></ul>
 
-        <footer class="footer">
-            <span data-i18n="edit-tip">Tip: double click on text to edit ✏️</span>
-            <span class="link" id="clearCompleted" role="button" tabindex="0" data-i18n="clear-completed">Clear
-                completed</span>
-        </footer>
-    </main>
+            <footer class="footer">
+                <span data-i18n="edit-tip">Tip: double click on text to edit ✏️</span>
+                <span class="link" id="clearCompleted" role="button" tabindex="0" data-i18n="clear-completed">Clear
+                    completed</span>
+            </footer>
+        </main>
+    </div>
 
     <!-- Botão para voltar ao topo -->
     <button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top" data-i18n="scroll-to-top"

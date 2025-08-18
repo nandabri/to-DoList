@@ -46,6 +46,9 @@ function updateLanguage(lang) {
     document.documentElement.lang = lang === 'he' ? 'he' : lang === 'pt' ? 'pt-BR' : 'en';
     document.documentElement.dir = lang === 'he' ? 'rtl' : 'ltr';
 
+    // Atualiza meta tags para SEO dinâmico
+    updateSEOMetaTags(lang);
+
     // Atualiza botões de idioma
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.lang === lang);
@@ -84,6 +87,81 @@ function updateLanguage(lang) {
 
     // Re-renderiza para atualizar conteúdo dinâmico
     render();
+}
+
+// ===== SEO Meta Tags Dinâmicas =====
+function updateSEOMetaTags(lang) {
+    const seoContent = {
+        en: {
+            description: 'Modern task management application with multilingual support, themes, and advanced features. Manage your daily tasks efficiently with due dates, filters, and synchronization.',
+            keywords: 'task manager, todo list, productivity, task organization, JavaScript, HTML5, CSS3, multilingual app, task tracking, project management',
+            ogTitle: 'Task Manager - Modern To-Do List Application',
+            ogDescription: 'Efficient task management with multilingual support, themes, and advanced filtering. Organize your daily tasks with style and functionality.',
+            twitterTitle: 'Task Manager - Modern To-Do List Application',
+            twitterDescription: 'Efficient task management with multilingual support, themes, and advanced filtering. Organize your daily tasks with style and functionality.',
+            language: 'en'
+        },
+        pt: {
+            description: 'Aplicação moderna de gerenciamento de tarefas com suporte multilíngue, temas e recursos avançados. Gerencie suas tarefas diárias com eficiência usando datas de vencimento, filtros e sincronização.',
+            keywords: 'gerenciador de tarefas, lista de afazeres, produtividade, organização de tarefas, JavaScript, HTML5, CSS3, aplicativo multilíngue, rastreamento de tarefas, gerenciamento de projetos',
+            ogTitle: 'Gerenciador de Tarefas - Aplicação Moderna de Lista de Afazeres',
+            ogDescription: 'Gerenciamento eficiente de tarefas com suporte multilíngue, temas e filtragem avançada. Organize suas tarefas diárias com estilo e funcionalidade.',
+            twitterTitle: 'Gerenciador de Tarefas - Aplicação Moderna de Lista de Afazeres',
+            twitterDescription: 'Gerenciamento eficiente de tarefas com suporte multilíngue, temas e filtragem avançada. Organize suas tarefas diárias com estilo e funcionalidade.',
+            language: 'pt'
+        },
+        he: {
+            description: 'אפליקציית ניהול משימות מודרנית עם תמיכה רב-לשונית, ערכות נושא ותכונות מתקדמות. נהל את המשימות היומיות שלך ביעילות עם תאריכי יעד, מסננים וסנכרון.',
+            keywords: 'מנהל משימות, רשימת משימות, פרודקטיביות, ארגון משימות, JavaScript, HTML5, CSS3, אפליקציה רב-לשונית, מעקב אחר משימות, ניהול פרויקטים',
+            ogTitle: 'מנהל משימות - אפליקציית רשימת משימות מודרנית',
+            ogDescription: 'ניהול משימות יעיל עם תמיכה רב-לשונית, ערכות נושא וסינון מתקדם. ארגן את המשימות היומיות שלך בסגנון ופונקציונליות.',
+            twitterTitle: 'מנהל משימות - אפליקציית רשימת משימות מודרנית',
+            twitterDescription: 'ניהול משימות יעיל עם תמיכה רב-לשונית, ערכות נושא וסינון מתקדם. ארגן את המשימות היומיות שלך בסגנון ופונקציונליות.',
+            language: 'he'
+        }
+    };
+
+    const content = seoContent[lang] || seoContent.en;
+
+    // Atualiza meta description
+    const descriptionMeta = document.querySelector('meta[name="description"]');
+    if (descriptionMeta) {
+        descriptionMeta.setAttribute('content', content.description);
+    }
+
+    // Atualiza meta keywords
+    const keywordsMeta = document.querySelector('meta[name="keywords"]');
+    if (keywordsMeta) {
+        keywordsMeta.setAttribute('content', content.keywords);
+    }
+
+    // Atualiza meta language
+    const languageMeta = document.querySelector('meta[name="language"]');
+    if (languageMeta) {
+        languageMeta.setAttribute('content', content.language);
+    }
+
+    // Atualiza Open Graph tags
+    const ogTitleMeta = document.querySelector('meta[property="og:title"]');
+    if (ogTitleMeta) {
+        ogTitleMeta.setAttribute('content', content.ogTitle);
+    }
+
+    const ogDescriptionMeta = document.querySelector('meta[property="og:description"]');
+    if (ogDescriptionMeta) {
+        ogDescriptionMeta.setAttribute('content', content.ogDescription);
+    }
+
+    // Atualiza Twitter Card tags
+    const twitterTitleMeta = document.querySelector('meta[name="twitter:title"]');
+    if (twitterTitleMeta) {
+        twitterTitleMeta.setAttribute('content', content.twitterTitle);
+    }
+
+    const twitterDescriptionMeta = document.querySelector('meta[name="twitter:description"]');
+    if (twitterDescriptionMeta) {
+        twitterDescriptionMeta.setAttribute('content', content.twitterDescription);
+    }
 }
 
 function updateTheme(theme) {
@@ -253,7 +331,7 @@ async function fetchInitialTasks() {
         if (tasks.length > 0) return;
 
         console.log('Fetching initial tasks from API...');
-        const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=5');
+        const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=4');
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://nandabri.github.io/to-DoList/sitemap.xml
+
+# Disallow specific files if needed
+Disallow: /node_modules/
+Disallow: /*.json$
