@@ -285,27 +285,6 @@ input[type="date"] {
     padding: 14px 12px;
     text-align: center;
     position: relative;
-    /* Força a exibição do calendário no mobile */
-    -webkit-appearance: none;
-    -moz-appearance: textfield;
-    appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%23666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>');
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 18px;
-    padding-right: 40px;
-}
-
-/* Tema escuro - ícone branco */
-[data-theme="dark"] input[type="date"] {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%23f0ebf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>');
-}
-
-/* RTL - posiciona o ícone à esquerda */
-[dir="rtl"] input[type="date"] {
-    background-position: left 12px center;
-    padding-right: 12px;
-    padding-left: 40px;
 }
 
 /* Simulação de placeholder para input de data */
@@ -334,19 +313,7 @@ input[type="date"]:invalid::before {
 
 /* Garante que o input funcione no mobile */
 input[type="date"]::-webkit-calendar-picker-indicator {
-    opacity: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
     cursor: pointer;
-    z-index: 2;
-}
-
-[dir="rtl"] input[type="date"]::-webkit-calendar-picker-indicator {
-    left: 0;
-    right: auto;
 }
 
 /* Fallback para browsers que não suportam input date */
@@ -830,7 +797,7 @@ input[type="text"][data-type="date"] {
         min-width: auto;
         border-radius: 0;
         border-top: none;
-        /* Garante que o calendário funcione no mobile */
+        /* Estilos específicos para mobile */
         -webkit-appearance: none;
         -moz-appearance: textfield;
         appearance: none;
@@ -851,6 +818,23 @@ input[type="text"][data-type="date"] {
         background-position: left 12px center;
         padding-right: 12px;
         padding-left: 40px;
+    }
+
+    /* Garante funcionamento do calendário no mobile */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        opacity: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        z-index: 2;
+    }
+
+    [dir="rtl"] input[type="date"]::-webkit-calendar-picker-indicator {
+        left: 0;
+        right: auto;
     }
 
     .input-row .btn {

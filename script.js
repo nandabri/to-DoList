@@ -355,8 +355,11 @@ function setupDateInput() {
     if (dueDateInput) {
         // Detecta se é um dispositivo mobile
         const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        const isSmallScreen = window.innerWidth <= 560;
 
-        if (isMobile) {
+        // Só aplica melhorias em dispositivos mobile ou telas pequenas
+        if (isMobile || (isTouchDevice && isSmallScreen)) {
             // Força o tipo date mesmo em browsers que podem ter problemas
             dueDateInput.setAttribute('type', 'date');
             dueDateInput.setAttribute('pattern', '[0-9]{4}-[0-9]{2}-[0-9]{2}');
@@ -374,7 +377,7 @@ function setupDateInput() {
 
             // Se o valor não foi definido corretamente, o browser não suporta input date
             if (dueDateInput.value !== testDate) {
-                console.log('Native date input not supported, creating custom date picker');
+                console.log('Native date input not supported on mobile, creating custom date picker');
                 createCustomDatePicker();
             } else {
                 // Limpa o valor de teste
